@@ -3,4 +3,6 @@
     <string name="connection">New Connection</string>
     <string name="existing">Choose Device</string>
     <string name="connect">Connect</string>
+    <string name="saveButton">Save</string>
+    <string name="addDevice">Add Device</string>
 </resources>

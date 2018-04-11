@@ -5,36 +5,40 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SelectionActivity extends AppCompatActivity {
+    static Device[] devices = new Device[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Select Device");
+        setSupportActionBar(toolbar);
 
-        Device[] devices = new Device[3];
         devices[0] = new Device("Device_1", "168.192.1.1", "Port_1", "Username_1", "Password_1");
         devices[1] = new Device("Device_2", "168.192.1.2", "Port_2", "Username_2", "Password_2");
         devices[2] = new Device("Device_3", "168.192.1.3", "Port_3", "Username_3", "Password_3");
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.selectionLayout);
 
         for (Device device : devices) {
             LinearLayout linearLayout1 = new LinearLayout(this);
             linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
-            linearLayout1.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT));
+            linearLayout1.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
             TextView textView = new TextView(this);
             textView.append(device.Name);
             textView.setTextSize(24);
             textView.setTextColor(Color.rgb(0, 0, 0));
+            textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.9f));
             linearLayout1.addView(textView);
 
             Button button = new Button(this);
