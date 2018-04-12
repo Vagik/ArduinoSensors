@@ -12,6 +12,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class SelectionActivity extends AppCompatActivity {
     static Device[] devices = new Device[3];
 
@@ -19,6 +25,7 @@ public class SelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Select Device");
         setSupportActionBar(toolbar);
@@ -40,6 +47,13 @@ public class SelectionActivity extends AppCompatActivity {
             textView.setTextColor(Color.rgb(0, 0, 0));
             textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.9f));
             linearLayout1.addView(textView);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SelectionActivity.this, SensorsActivity.class);
+                    startActivity(intent);
+                }
+            });
 
             Button button = new Button(this);
             button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_edit_button, 0, 0, 0);

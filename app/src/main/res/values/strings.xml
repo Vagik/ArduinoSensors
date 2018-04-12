@@ -5,4 +5,14 @@
     <string name="connect">Connect</string>
     <string name="saveButton">Save</string>
     <string name="addDevice">Add Device</string>
+    <string name="temperatureSensor">Temperature</string>
+    <string name="motionSensor">Motion Sensor</string>
+
+
+    <string name="deviceName">Device Name:</string>
+    <string name="deviceIP">IP:</string>
+    <string name="devicePort">Port:</string>
+    <string name="deviceUsername">Username:</string>
+    <string name="devicePassword">Password:</string>
+
 </resources>

@@ -6,34 +6,31 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
-
+public class SensorsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sensors);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Arduino Sensors");
+        toolbar.setTitle("Sensors");
         setSupportActionBar(toolbar);
 
-        (findViewById(R.id.connectionButton)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.motionTextView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent conAct = new Intent(MainActivity.this, ConnectionActivity.class);
-                startActivity(conAct);
+                Intent intent = new Intent(SensorsActivity.this, MotionActivity.class);
+                startActivity(intent);
             }
         });
 
-        (findViewById(R.id.selectionButton)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.temperatureTextView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent selAct = new Intent(MainActivity.this, SelectionActivity.class);
-                startActivity(selAct);
+                Intent intent = new Intent(SensorsActivity.this, TemperatureActivity.class);
+                startActivity(intent);
             }
         });
-
-
     }
 }

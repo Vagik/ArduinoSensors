@@ -3,6 +3,6 @@
     <color name="colorBackground">#eeeeee</color>
     <color name="mainPageBackground">#0d0d0d</color>
     <color name="colorButton">#ffb410</color>
-    <color name="actionBarColor">#721d16</color>
+    <color name="toolbarBarColor">#721d16</color>
     <color name="white">#FFFFFF</color>
 </resources>
