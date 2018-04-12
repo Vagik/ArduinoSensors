@@ -27,11 +27,12 @@ public class TemperatureActivity extends AppCompatActivity {
 
         int temperature = rand(0, 50);
         TextView tempView = ((TextView) findViewById(R.id.tempTextView));
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        int size = progressBar.getMeasuredWidth();
-
         tempView.setText(Integer.toString(temperature));
-        progressBar.setProgress(tempCoef * temperature);
+
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, tempCoef*temperature);
+        animation.setDuration(500);
+        progressBar.startAnimation(animation);
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         DataPoint[] dataPoints = new DataPoint[30];
