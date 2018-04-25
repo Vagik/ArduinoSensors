@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.unn.arduinosensors.ConnectionActivity">
+    tools:context="com.unn.arduinosensors.Activities.ConnectionActivity">
 
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar" />
@@ -28,7 +28,8 @@
         <EditText
             android:id="@+id/connectName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
     </LinearLayout>
 
@@ -51,7 +52,8 @@
         <EditText
             android:id="@+id/connectIP"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
     </LinearLayout>
 
@@ -73,7 +75,8 @@
         <EditText
             android:id="@+id/connectPort"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="number" />
 
     </LinearLayout>
 
@@ -95,7 +98,8 @@
         <EditText
             android:id="@+id/connectUsername"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
     </LinearLayout>
 
@@ -117,7 +121,8 @@
         <EditText
             android:id="@+id/connectPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
     </LinearLayout>
 

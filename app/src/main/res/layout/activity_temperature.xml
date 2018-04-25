@@ -5,26 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.unn.arduinosensors.TemperatureActivity">
+    tools:context="com.unn.arduinosensors.Activities.TemperatureActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/graph"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="-20dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/graph"
+        android:layout_above="@+id/tempGraph"
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
@@ -36,10 +29,18 @@
         android:id="@+id/tempTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="60sp"
         android:layout_alignTop="@+id/progressBar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp" />
+        android:layout_marginTop="58dp"
+        android:text="0"
+        android:textSize="55sp" />
+
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/tempGraph"
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"/>
 
 </RelativeLayout>

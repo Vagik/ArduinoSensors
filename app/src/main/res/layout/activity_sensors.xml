@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    tools:context="com.unn.arduinosensors.SensorsActivity">
+    tools:context="com.unn.arduinosensors.Activities.SensorsActivity">
 
     <include
         android:id="@+id/toolbar"

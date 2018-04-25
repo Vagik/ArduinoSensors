@@ -4,12 +4,12 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 
-class ProgressBarAnimation extends Animation{
+public class ProgressBarAnimation extends Animation {
     private ProgressBar progressBar;
     private float from;
-    private float  to;
+    private float to;
 
-    ProgressBarAnimation(ProgressBar progressBar, float from, float to) {
+    public ProgressBarAnimation(ProgressBar progressBar, float from, float to) {
         super();
         this.progressBar = progressBar;
         this.from = from;
