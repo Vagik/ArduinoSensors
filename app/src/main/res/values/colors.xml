@@ -5,4 +5,7 @@
     <color name="colorButton">#ffb410</color>
     <color name="toolbarBarColor">#721d16</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="startColor">#ba0906</color>
+    <color name="endColor">#28a8f7</color>
 </resources>

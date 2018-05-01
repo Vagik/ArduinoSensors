@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    tools:context="com.unn.arduinosensors.Activities.SelectionActivity">
+    tools:context="com.simonyan.arduinosensors.Activities.SelectionActivity">
 
     <include layout="@layout/toolbar" />
 
