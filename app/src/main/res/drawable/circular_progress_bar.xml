@@ -5,7 +5,6 @@
     android:thickness="10dp"
     android:useLevel="true">
 
-    <gradient
-        android:startColor="@color/startColor"
-        android:endColor="@color/endColor" />
+    <solid android:color="@color/toolbarBarColor"/>
+
 </shape>

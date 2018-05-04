@@ -21,7 +21,6 @@ public class SensorsActivity extends AppCompatActivity {
         toolbar.setTitle("Sensors");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

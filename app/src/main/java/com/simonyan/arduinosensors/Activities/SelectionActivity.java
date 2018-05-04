@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.simonyan.arduinosensors.Device;
 import com.simonyan.arduinosensors.DevicesAdapter;
-import com.simonyan.arduinosensors.MyToolbar;
 import com.simonyan.arduinosensors.R;
 
 import java.util.ArrayList;
@@ -24,19 +23,24 @@ public class SelectionActivity extends AppCompatActivity {
 
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SelectionActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-        Toolbar toolbar =  (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Select Device");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelectionActivity.this, MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
 

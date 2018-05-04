@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 import com.simonyan.arduinosensors.ClickListeners.EditClickListener;
 import com.simonyan.arduinosensors.Device;
-import com.simonyan.arduinosensors.MyToolbar;
 import com.simonyan.arduinosensors.R;
 
 
@@ -20,7 +19,7 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        Toolbar toolbar =  (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Edit Device");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -33,10 +32,9 @@ public class EditActivity extends AppCompatActivity {
 
         Device device = (Device) getIntent().getSerializableExtra("Device");
         fillDeviceFields(device);
-        Button button = (Button)findViewById(R.id.saveDeviceButton);
+        Button button = (Button) findViewById(R.id.saveDeviceButton);
         button.setOnClickListener(new EditClickListener(device, EditActivity.this, this));
     }
-
 
     private void fillDeviceFields(Device device) {
         ((EditText) findViewById(R.id.editName)).setText(device.getName());

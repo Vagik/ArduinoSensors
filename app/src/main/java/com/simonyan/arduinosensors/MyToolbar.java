@@ -5,12 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-public class MyToolbar extends AppCompatActivity {
+public class MyToolbar extends AppCompatActivity{
 
     private Activity activity;
     private String title;
+
+    public MyToolbar(){}
+
     public MyToolbar(Activity activity, String title){
-        Toolbar toolbar =  (Toolbar) activity.findViewById(R.id.toolbar);
+        this.activity = activity;
+        this.title = title;
+    }
+
+    public void init(){
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -20,9 +28,5 @@ public class MyToolbar extends AppCompatActivity {
                 onBackPressed();
             }
         });
-    }
-
-    public void Init(){
-
     }
 }

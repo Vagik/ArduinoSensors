@@ -20,6 +20,8 @@
         <activity android:name=".Activities.SensorsActivity"/>
         <activity android:name=".Activities.TemperatureActivity"/>
         <activity android:name=".Activities.MotionActivity"/>
+        <activity android:name=".MyToolbar"/>
+
     </application>
 
 </manifest>
