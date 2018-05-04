@@ -12,7 +12,6 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.simonyan.arduinosensors.Device;
-import com.simonyan.arduinosensors.MyToolbar;
 import com.simonyan.arduinosensors.R;
 
 import java.util.HashSet;
