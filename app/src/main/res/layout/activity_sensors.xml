@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/text_view_style"
         android:padding="10dp"
-        android:text="@string/motionSensor"
+        android:text="@string/humiditySensor"
         android:textSize="24sp" />
 
     <TextView

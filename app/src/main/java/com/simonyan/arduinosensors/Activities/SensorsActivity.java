@@ -33,7 +33,7 @@ public class SensorsActivity extends AppCompatActivity {
         (findViewById(R.id.motionTextView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SensorsActivity.this, MotionActivity.class);
+                Intent intent = new Intent(SensorsActivity.this, HumidityActivity.class);
                 startActivity(intent);
             }
         });

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.simonyan.arduinosensors">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,8 +23,8 @@
         <activity android:name=".Activities.EditActivity"/>
         <activity android:name=".Activities.SensorsActivity"/>
         <activity android:name=".Activities.TemperatureActivity"/>
-        <activity android:name=".Activities.MotionActivity"/>
-
+        <activity android:name=".Activities.HumidityActivity"/>
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
 </manifest>
