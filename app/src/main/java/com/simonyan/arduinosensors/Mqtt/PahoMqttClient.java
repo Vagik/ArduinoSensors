@@ -93,12 +93,12 @@ public class PahoMqttClient {
         token.setActionCallback(new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken iMqttToken) {
-                Log.d(TAG, "Subscribe Successfully " + topic);
+                Log.i("MQTT", "Subscribe Successfully ");
             }
 
             @Override
             public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
-                Log.e(TAG, "Subscribe Failed " + topic);
+                Log.i("MQTT", "Subscribe Failed " + topic);
 
             }
         });

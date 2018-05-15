@@ -27,6 +27,11 @@
         <activity android:name=".Activities.HumidityActivity"/>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <service
+            android:name=".Mqtt.MqttMessageService"
+            android:enabled="true"
+            android:exported="false"></service>
+
     </application>
 
 </manifest>
