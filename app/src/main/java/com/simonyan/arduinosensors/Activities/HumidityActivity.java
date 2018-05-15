@@ -1,20 +1,31 @@
 package com.simonyan.arduinosensors.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.simonyan.arduinosensors.Mqtt.Constants;
+import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
+import com.simonyan.arduinosensors.Mqtt.PahoMqttClient;
 import com.simonyan.arduinosensors.ProgressBarAnimation;
 import com.simonyan.arduinosensors.R;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.w3c.dom.Text;
+
+import java.io.UnsupportedEncodingException;
+
 public class HumidityActivity extends AppCompatActivity {
     int humidityCoef = 2;
-
+    public static int humidity = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +42,52 @@ public class HumidityActivity extends AppCompatActivity {
             }
         });
 
-        int humidity = rand(10, 50);
+
+
+
+
+        Button waterApply = (Button)findViewById(R.id.waterApply);
+
+        waterApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msg = "";
+                Switch waterSwitch = (Switch)findViewById(R.id.waterSwitch);
+                if(waterSwitch.isChecked()){
+                    msg += "1";
+                } else {
+                    msg += "0";
+                }
+
+                Switch autoWaterSwitch = (Switch)findViewById(R.id.autoWaterSwitch);
+                if(autoWaterSwitch.isChecked()){
+                    msg += "1";
+                } else {
+                    msg += "0";
+                }
+
+                if (!msg.isEmpty()) {
+                    try {
+                        Constants.pahoMqttClient.publishMessage(Constants.client, msg, 1, Constants.PUBLISH_TOPIC);
+                    } catch (MqttException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
+                    Constants.pahoMqttClient.subscribe(Constants.client, Constants.SUBSCRIBE_TOPIC, 1);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+      //  int humidity = rand(10, 50);
         initProgressBar((ProgressBar) findViewById(R.id.progressBar), humidity);
-        ((TextView) findViewById(R.id.tempTextView)).setText(Integer.toString(humidity) + "%");
+        TextView tempText =   (TextView) findViewById(R.id.tempTextView);
+        tempText.setText(Integer.toString(humidity) + "%");
 
 
         Switch waterPlants = (Switch) findViewById(R.id.waterSwitch);
@@ -42,6 +96,8 @@ public class HumidityActivity extends AppCompatActivity {
         Switch autoWaterPlants = (Switch) findViewById(R.id.autoWaterSwitch);
         setAutoWaterListener(autoWaterPlants);
 
+        Intent intent = new Intent(HumidityActivity.this, MqttMessageService.class);
+        startService(intent);
     }
 
     private void initProgressBar(ProgressBar progressBar, int temperature) {
@@ -62,7 +118,6 @@ public class HumidityActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     ((Switch) findViewById(R.id.autoWaterSwitch)).setChecked(false);
-                    // TODO: 08.05.2018 Tell arduino to water the plants
                 }
             }
         });
@@ -74,7 +129,6 @@ public class HumidityActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     ((Switch) findViewById(R.id.waterSwitch)).setChecked(false);
-                    // TODO: 08.05.2018 Tell arduino to water the plants automatically
                 }
             }
         });

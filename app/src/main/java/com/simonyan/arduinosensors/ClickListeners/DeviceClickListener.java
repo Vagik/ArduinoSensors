@@ -1,5 +1,6 @@
 package com.simonyan.arduinosensors.ClickListeners;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -8,20 +9,20 @@ import com.simonyan.arduinosensors.Device;
 
 public class DeviceClickListener implements View.OnClickListener {
     private Device device;
-    private Context context;
+    private Activity activity;
     private Class moveTo;
 
-    public DeviceClickListener(Device device, Context context, Class moveTo) {
+    public DeviceClickListener(Device device, Activity activity, Class moveTo) {
         this.device = device;
-        this.context = context;
+        this.activity = activity;
         this.moveTo = moveTo;
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(context, moveTo);
+        Intent intent = new Intent(activity, moveTo);
         intent.putExtra("Device", device);
-        context.startActivity(intent);
+        activity.startActivity(intent);
     }
 }
 

@@ -2,10 +2,8 @@
 <resources>
     <color name="colorBackground">#eeeeee</color>
     <color name="mainPageBackground">#0d0d0d</color>
-    <color name="colorButton">#ffb410</color>
+    <color name="buttonColor">#ffb410</color>
     <color name="toolbarBarColor">#721d16</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="startColor">#ba0906</color>
-    <color name="endColor">#28a8f7</color>
 </resources>

@@ -17,9 +17,6 @@ allprojects {
     repositories {
         jcenter()
         google()
-        maven {
-            url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
-        }
     }
 }
 

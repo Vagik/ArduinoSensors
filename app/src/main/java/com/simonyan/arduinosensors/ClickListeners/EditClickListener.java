@@ -29,7 +29,6 @@ public class EditClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
         Device newDevice = readChanges();
 
         SharedPreferences preferences = context.getSharedPreferences("Storage", Context.MODE_PRIVATE);
