@@ -69,17 +69,17 @@ public class PahoMqttClient {
 
     private MqttConnectOptions getMqttConnectionOption() {
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
-        mqttConnectOptions.setCleanSession(false);
+        mqttConnectOptions.setCleanSession(true);
         mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setUserName(Constants.USERNAME);
-        mqttConnectOptions.setPassword(Constants.PASSWORD.toCharArray());
+        mqttConnectOptions.setUserName(StaticData.USERNAME);
+        mqttConnectOptions.setPassword(StaticData.PASSWORD.toCharArray());
         return mqttConnectOptions;
     }
 
 
     public void publishMessage(MqttAndroidClient client, String msg, int qos, String topic)
             throws MqttException, UnsupportedEncodingException {
-        byte[] encodedPayload = new byte[0];
+        byte[] encodedPayload;
         encodedPayload = msg.getBytes("UTF-8");
         MqttMessage message = new MqttMessage(encodedPayload);
         message.setId(320);

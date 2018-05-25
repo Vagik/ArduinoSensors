@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,8 +18,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SelectionActivity extends AppCompatActivity {
+public class SelectionActivity extends BaseActivity {
 
+    @Override
+    protected String getActivityTitle() {
+        return getString(R.string.SelectDevice);
+    }
 
     @Override
     public void onBackPressed() {
@@ -33,21 +36,9 @@ public class SelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Select Device");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
         ArrayList<Device> devices = getAllDevices();
 
         fillRecyclerView(devices);
-
     }
 
     void fillRecyclerView(ArrayList<Device> devices) {
@@ -58,7 +49,7 @@ public class SelectionActivity extends AppCompatActivity {
 
     ArrayList<Device> getAllDevices() {
         ArrayList<Device> devices = new ArrayList<>();
-        SharedPreferences preferences = getSharedPreferences("Storage", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("ArduinoSensors", Context.MODE_PRIVATE);
         Set<String> setDevices = preferences.getStringSet("Devices", new HashSet<String>());
 
         for (String dev : setDevices) {

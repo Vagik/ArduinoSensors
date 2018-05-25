@@ -5,14 +5,14 @@ import java.io.Serializable;
 
 public class Device implements Serializable {
     private String Name;
-    private String IP;
+    private String ClientID;
     private String Port;
     private String UserName;
     private String Password;
 
-    public Device(String Name, String IP, String Port, String UserName, String Password) {
+    public Device(String Name, String ClientID, String Port, String UserName, String Password) {
         this.Name = Name;
-        this.IP = IP;
+        this.ClientID = ClientID;
         this.Port = Port;
         this.UserName = UserName;
         this.Password = Password;
@@ -22,8 +22,8 @@ public class Device implements Serializable {
         return Name;
     }
 
-    public String getIP() {
-        return IP;
+    public String getClientID() {
+        return ClientID;
     }
 
     public String getPort() {

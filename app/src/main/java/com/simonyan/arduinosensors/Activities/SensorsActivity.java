@@ -2,50 +2,37 @@ package com.simonyan.arduinosensors.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
 
 import com.simonyan.arduinosensors.Device;
-import com.simonyan.arduinosensors.Mqtt.Constants;
+import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
 import com.simonyan.arduinosensors.Mqtt.PahoMqttClient;
+import com.simonyan.arduinosensors.Mqtt.StaticData;
 import com.simonyan.arduinosensors.R;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
 
+public class SensorsActivity extends BaseActivity {
 
-public class SensorsActivity extends AppCompatActivity {
+    @Override
+    protected String getActivityTitle() {
+        return getString(R.string.SensorsActivity);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensors);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Sensors");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         // TODO: 25.04.2018 Connection to Arduino
         Device device = (Device) getIntent().getSerializableExtra("Device");
-        Constants.MQTT_BROKER_URL = "tcp://iot.eclipse.org:" + device.getPort();
-        Constants.USERNAME = device.getUserName();
-        Constants.PASSWORD = device.getPassword();
+        StaticData.MQTT_BROKER_URL = "tcp://iot.eclipse.org:" + device.getPort();
+        StaticData.USERNAME = device.getUserName();
+        StaticData.PASSWORD = device.getPassword();
+        StaticData.CLIENT_ID = device.getPassword();
 
-
-        Constants.pahoMqttClient = new PahoMqttClient();
-        Constants.client = Constants.pahoMqttClient.getMqttClient(getApplicationContext(), Constants.MQTT_BROKER_URL, Constants.CLIENT_ID);
-
-
-
-
+        StaticData.pahoMqttClient = new PahoMqttClient();
+        StaticData.client = StaticData.pahoMqttClient.getMqttClient(getApplicationContext(), StaticData.MQTT_BROKER_URL, StaticData.CLIENT_ID);
 
         (findViewById(R.id.motionTextView)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,9 +50,8 @@ public class SensorsActivity extends AppCompatActivity {
             }
         });
 
-
-
-
+        Intent intent = new Intent(this, MqttMessageService.class);
+        startService(intent);
     }
 
 }

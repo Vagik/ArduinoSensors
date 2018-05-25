@@ -12,7 +12,7 @@
         layout="@layout/toolbar" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/tempProgressBar"
         style="?android:progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:id="@+id/tempTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/progressBar"
+        android:layout_alignTop="@+id/tempProgressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="58dp"
         android:text="0"
@@ -57,7 +57,7 @@
                 android:textSize="30sp" />
 
             <Switch
-                android:id="@+id/openSwitch"
+                android:id="@+id/tempSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -91,7 +91,7 @@
                 android:textSize="30sp" />
 
             <Switch
-                android:id="@+id/autoOpenSwitch"
+                android:id="@+id/autoTempSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -101,5 +101,17 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+
+    <Button
+        android:id="@+id/tempApply"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="Apply" />
 
 </RelativeLayout>

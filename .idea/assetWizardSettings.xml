@@ -31,13 +31,27 @@
                             <entry key="launcherLegacy">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="trimmed" value="true" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="backgroundColor" value="9c1c0e" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\DDD\Desktop\delete.png" />
-                                      <entry key="outputName" value="ic_delete_button" />
+                                      <entry key="imageAsset" value="C:\Users\DDD\Desktop\AU-NEW-1.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -59,7 +73,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>
@@ -81,8 +95,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
+                            <entry key="height" value="433" />
                             <entry key="outputName" value="main_image" />
-                            <entry key="sourceFile" value="C:\Users\DDD\Downloads\AU_-_3.svg" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\DDD\Desktop\AU-NEW-2.svg" />
+                            <entry key="width" value="441" />
                           </map>
                         </option>
                       </PersistentState>

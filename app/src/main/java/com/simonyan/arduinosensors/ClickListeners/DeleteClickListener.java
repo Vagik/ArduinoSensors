@@ -25,7 +25,7 @@ public class DeleteClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        SharedPreferences preferences = activity.getSharedPreferences("Storage", Context.MODE_PRIVATE);
+        SharedPreferences preferences = activity.getSharedPreferences("ArduinoSensors", Context.MODE_PRIVATE);
         Set<String> setDevices = preferences.getStringSet("Devices", new HashSet<String>());
 
         GsonBuilder gsonBuilder = new GsonBuilder();

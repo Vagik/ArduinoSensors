@@ -1,69 +1,84 @@
 package com.simonyan.arduinosensors.Activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.simonyan.arduinosensors.ClickListeners.RefreshClickListener;
+import com.simonyan.arduinosensors.Mqtt.StaticData;
 import com.simonyan.arduinosensors.ProgressBarAnimation;
 import com.simonyan.arduinosensors.R;
 
-public class TemperatureActivity extends AppCompatActivity {
-    private static final int tempCoef = 2;
+import org.eclipse.paho.client.mqttv3.MqttException;
+
+public class TemperatureActivity extends BaseActivity {
+    final int temperatureCoef = 2;
+
+    @Override
+    protected String getActivityTitle() {
+        return getString(R.string.TemperatureSensor);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temperature);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Temperature Sensor");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        TextView tempText = (TextView) findViewById(R.id.tempTextView);
+        ProgressBar progressBarTemp = (ProgressBar) findViewById(R.id.tempProgressBar);
+
+        tempText.setOnClickListener(new RefreshClickListener(tempText, progressBarTemp, temperatureCoef, 1));
+
+        tempText.setText(StaticData.tempValue + "°C");
+        initProgressBar(progressBarTemp, temperatureCoef, StaticData.tempValue);
+
+
+        Button waterApply = (Button) findViewById(R.id.tempApply);
+        waterApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                String msg = "";
+                Switch tempSwitch = (Switch) findViewById(R.id.tempSwitch);
+                msg = checkSwitch(tempSwitch, msg);
+
+                Switch autoTempSwitch = (Switch) findViewById(R.id.autoTempSwitch);
+                msg = checkSwitch(autoTempSwitch, msg);
+
+                // TODO: 23.05.2018 Message "COMING SOON"
             }
         });
 
-        int temperature = rand(10, 50);
-        initProgressBar((ProgressBar) findViewById(R.id.progressBar), temperature);
-        ((TextView) findViewById(R.id.tempTextView)).setText(Integer.toString(temperature) + "°C");
+        subscribe();
 
 
-        Switch openDoor = (Switch) findViewById(R.id.openSwitch);
+        Switch openDoor = (Switch) findViewById(R.id.tempSwitch);
         setOpenDoorListener(openDoor);
 
-        Switch autoOpenDoor = (Switch) findViewById(R.id.autoOpenSwitch);
+        Switch autoOpenDoor = (Switch) findViewById(R.id.autoTempSwitch);
         setAutoDoorListener(autoOpenDoor);
 
     }
 
-    private int rand(int min, int max) {
-        max -= min;
-        return (int) (Math.random() * ++max) + min;
+
+    private void subscribe() {
+        try {
+            StaticData.pahoMqttClient.subscribe(StaticData.client, StaticData.SUBSCRIBE_TOPIC_TEMP, 1);
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initProgressBar(ProgressBar progressBar, int temperature) {
-        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, tempCoef * temperature);
-        animation.setDuration(500);
-        progressBar.startAnimation(animation);
-    }
 
     private void setOpenDoorListener(Switch openDoor) {
         openDoor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ((Switch) findViewById(R.id.autoOpenSwitch)).setChecked(false);
-                    // TODO: 08.05.2018 Tell arduino to open the door
-                } else {
-                    // TODO: 08.05.2018 Tell arduino to close the door 
+                    ((Switch) findViewById(R.id.autoTempSwitch)).setChecked(false);
                 }
             }
         });
@@ -74,22 +89,24 @@ public class TemperatureActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    ((Switch) findViewById(R.id.openSwitch)).setChecked(false);
-                    // TODO: 08.05.2018 Tell arduino to open the door automatically
-                } else {
-                    // TODO: 08.05.2018 Turn off
+                    ((Switch) findViewById(R.id.tempSwitch)).setChecked(false);
                 }
             }
         });
     }
 
+    public void initProgressBar(ProgressBar progressBar, int coef, int value) {
+        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, coef * value);
+        animation.setDuration(500);
+        progressBar.startAnimation(animation);
+    }
+
+    public String checkSwitch(Switch view, String message) {
+        if (view.isChecked()) {
+            message += "1";
+        } else {
+            message += "0";
+        }
+        return message;
+    }
 }
-/*
-сервопривод
-servo.h
-
-на какие порты (на аналогвые и цифровые)
-pwm
-мотором зажать трубку
-
-*/

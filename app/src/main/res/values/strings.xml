@@ -13,9 +13,18 @@
     <string name="autoWaterPlants">Automatic watering</string>
 
     <string name="deviceName">Device Name:</string>
-    <string name="deviceIP">IP:</string>
+    <string name="clientID">ID:</string>
     <string name="devicePort">Port:</string>
     <string name="deviceUsername">Username:</string>
     <string name="devicePassword">Password:</string>
+
+    <string name="NewConnection">New Connection</string>
+    <string name="EditDevice">Edit Device</string>
+    <string name="HumidityActivity">Humidity Sensor</string>
+    <string name="SensorsActivity">Sensors</string>
+    <string name="TemperatureSensor">Temperature Sensor</string>
+    <string name="SelectDevice">Select Device</string>
+
+
 
 </resources>

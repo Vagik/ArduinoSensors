@@ -1,21 +1,11 @@
 package com.simonyan.arduinosensors.Mqtt;
 
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.simonyan.arduinosensors.Activities.HumidityActivity;
-import com.simonyan.arduinosensors.Activities.MainActivity;
-import com.simonyan.arduinosensors.R;
+import com.simonyan.arduinosensors.ProgressBarAnimation;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -24,50 +14,44 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MqttMessageService extends Service {
 
-    private static final String TAG = "MqttMessageService";
-    private PahoMqttClient pahoMqttClient;
-    private MqttAndroidClient mqttAndroidClient;
-
     public MqttMessageService() {
-        Log.i("MQTT", "SERVICE");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        pahoMqttClient = new PahoMqttClient();
-        mqttAndroidClient = pahoMqttClient.getMqttClient(getApplicationContext(), Constants.MQTT_BROKER_URL, Constants.CLIENT_ID);
+        PahoMqttClient pahoMqttClient = new PahoMqttClient();
+        MqttAndroidClient mqttAndroidClient = pahoMqttClient.getMqttClient(getApplicationContext(), StaticData.MQTT_BROKER_URL, StaticData.CLIENT_ID);
+
 
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                Log.i("MQTT", "connectComplete");
             }
 
             @Override
             public void connectionLost(Throwable throwable) {
-                Log.i("MQTT", "connectionLost");
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+            public void messageArrived(String topic, MqttMessage mqttMessage) {
                 String message = new String(mqttMessage.getPayload());
-                String mes ="" + message.charAt(1) + message.charAt(2);
-                int humidity = Integer.valueOf(mes);
-                HumidityActivity.tempText.setText(humidity + "%");
-                HumidityActivity.initProgressBar(HumidityActivity.progressBar, humidity);
+
+                if(topic.equals(StaticData.SUBSCRIBE_TOPIC_HUM)) {
+                    StaticData.humValue = Integer.valueOf(message);
+                }else if(topic.equals(StaticData.SUBSCRIBE_TOPIC_TEMP)) {
+                    StaticData.tempValue = Integer.valueOf(message);
+                }
             }
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-                Log.i("MQTT", "deliveryComplete");
             }
         });
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand");
         return START_STICKY;
     }
 
@@ -80,25 +64,13 @@ public class MqttMessageService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "onDestroy");
     }
 
-    private void setMessageNotification(String topic, String msg) {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_edit_button)
-                        .setContentTitle(topic)
-                        .setContentText(msg);
-        Intent resultIntent = new Intent(this, MainActivity.class);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(100, mBuilder.build());
+    public void initProgressBar(ProgressBar progressBar, int coef, int value) {
+        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, coef * value);
+        animation.setDuration(500);
+        progressBar.startAnimation(animation);
     }
+
 }

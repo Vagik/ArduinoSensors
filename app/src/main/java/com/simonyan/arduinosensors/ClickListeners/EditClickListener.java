@@ -31,7 +31,7 @@ public class EditClickListener implements View.OnClickListener {
     public void onClick(View v) {
         Device newDevice = readChanges();
 
-        SharedPreferences preferences = context.getSharedPreferences("Storage", Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("ArduinoSensors", Context.MODE_PRIVATE);
         Set<String> setDevices = preferences.getStringSet("Devices", new HashSet<String>());
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -58,11 +58,11 @@ public class EditClickListener implements View.OnClickListener {
 
     public Device readChanges() {
         String Name = ((EditText) activity.findViewById(R.id.editName)).getText().toString();
-        String IP = ((EditText) activity.findViewById(R.id.editIP)).getText().toString();
+        String ClientID = ((EditText) activity.findViewById(R.id.editClientID)).getText().toString();
         String Port = ((EditText) activity.findViewById(R.id.editPort)).getText().toString();
         String UserName = ((EditText) activity.findViewById(R.id.editUsername)).getText().toString();
         String Password = ((EditText) activity.findViewById(R.id.editPassword)).getText().toString();
-        return new Device(Name, IP, Port, UserName, Password);
+        return new Device(Name, ClientID, Port, UserName, Password);
     }
 
 }
