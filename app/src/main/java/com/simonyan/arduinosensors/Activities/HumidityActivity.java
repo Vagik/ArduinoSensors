@@ -18,7 +18,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import java.io.UnsupportedEncodingException;
 
 public class HumidityActivity extends BaseActivity {
-    final int humidityCoef = 2;
+    final int humidityCoef = 1;
 
     @Override
     protected String getActivityTitle() {
