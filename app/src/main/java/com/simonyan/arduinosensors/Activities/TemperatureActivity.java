@@ -1,6 +1,8 @@
 package com.simonyan.arduinosensors.Activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -9,7 +11,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.simonyan.arduinosensors.ClickListeners.RefreshClickListener;
-import com.simonyan.arduinosensors.Mqtt.StaticData;
+import com.simonyan.arduinosensors.Mqtt.MqttData;
 import com.simonyan.arduinosensors.ProgressBarAnimation;
 import com.simonyan.arduinosensors.R;
 
@@ -33,8 +35,8 @@ public class TemperatureActivity extends BaseActivity {
 
         tempText.setOnClickListener(new RefreshClickListener(tempText, progressBarTemp, temperatureCoef, 1));
 
-        tempText.setText(StaticData.tempValue + "°C");
-        initProgressBar(progressBarTemp, temperatureCoef, StaticData.tempValue);
+        tempText.setText(MqttData.tempValue + "°C");
+        initProgressBar(progressBarTemp, temperatureCoef, MqttData.tempValue);
 
 
         Button waterApply = (Button) findViewById(R.id.tempApply);
@@ -48,7 +50,16 @@ public class TemperatureActivity extends BaseActivity {
                 Switch autoTempSwitch = (Switch) findViewById(R.id.autoTempSwitch);
                 msg = checkSwitch(autoTempSwitch, msg);
 
-                // TODO: 23.05.2018 Message "COMING SOON"
+                final AlertDialog aboutDialog = new AlertDialog.Builder(
+                        TemperatureActivity.this).setMessage("COMING SOON!")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).create();
+
+                aboutDialog.show();
+
             }
         });
 
@@ -66,7 +77,7 @@ public class TemperatureActivity extends BaseActivity {
 
     private void subscribe() {
         try {
-            StaticData.pahoMqttClient.subscribe(StaticData.client, StaticData.SUBSCRIBE_TOPIC_TEMP, 1);
+            MqttData.pahoMqttClient.subscribe(MqttData.client, MqttData.SUBSCRIBE_TOPIC_TEMP, 1);
         } catch (MqttException e) {
             e.printStackTrace();
         }

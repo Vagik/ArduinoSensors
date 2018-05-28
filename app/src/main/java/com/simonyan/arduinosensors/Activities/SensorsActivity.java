@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.simonyan.arduinosensors.Device;
+import com.simonyan.arduinosensors.Mqtt.MqttData;
 import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
 import com.simonyan.arduinosensors.Mqtt.PahoMqttClient;
-import com.simonyan.arduinosensors.Mqtt.StaticData;
 import com.simonyan.arduinosensors.R;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 
 public class SensorsActivity extends BaseActivity {
@@ -23,16 +25,14 @@ public class SensorsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensors);
 
-
-        // TODO: 25.04.2018 Connection to Arduino
         Device device = (Device) getIntent().getSerializableExtra("Device");
-        StaticData.MQTT_BROKER_URL = "tcp://iot.eclipse.org:" + device.getPort();
-        StaticData.USERNAME = device.getUserName();
-        StaticData.PASSWORD = device.getPassword();
-        StaticData.CLIENT_ID = device.getPassword();
-
-        StaticData.pahoMqttClient = new PahoMqttClient();
-        StaticData.client = StaticData.pahoMqttClient.getMqttClient(getApplicationContext(), StaticData.MQTT_BROKER_URL, StaticData.CLIENT_ID);
+        MqttData.DEVICE_NAME = device.getName();
+        MqttData.MQTT_BROKER_URL += device.getPort();
+        MqttData.USERNAME = device.getUserName();
+        MqttData.PASSWORD = device.getPassword();
+        MqttData.CLIENT_ID = device.getPassword();
+        MqttData.pahoMqttClient = new PahoMqttClient();
+        MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(), MqttData.MQTT_BROKER_URL, MqttData.CLIENT_ID);
 
         (findViewById(R.id.motionTextView)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,5 +53,5 @@ public class SensorsActivity extends BaseActivity {
         Intent intent = new Intent(this, MqttMessageService.class);
         startService(intent);
     }
-
 }
+

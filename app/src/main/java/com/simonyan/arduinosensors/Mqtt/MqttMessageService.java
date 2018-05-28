@@ -1,13 +1,20 @@
 package com.simonyan.arduinosensors.Mqtt;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.ProgressBar;
+import android.support.v4.app.NotificationCompat;
+import android.view.Gravity;
+import android.widget.Toast;
 
-import com.simonyan.arduinosensors.ProgressBarAnimation;
+import com.simonyan.arduinosensors.Activities.MainActivity;
+import com.simonyan.arduinosensors.R;
 
-import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -20,27 +27,48 @@ public class MqttMessageService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        PahoMqttClient pahoMqttClient = new PahoMqttClient();
-        MqttAndroidClient mqttAndroidClient = pahoMqttClient.getMqttClient(getApplicationContext(), StaticData.MQTT_BROKER_URL, StaticData.CLIENT_ID);
+        MqttData.pahoMqttClient = new PahoMqttClient();
+        MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(), MqttData.MQTT_BROKER_URL, MqttData.CLIENT_ID);
 
 
-        mqttAndroidClient.setCallback(new MqttCallbackExtended() {
+        MqttData.client.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Connection Complete!",
+                        Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.setGravity(Gravity.BOTTOM, 0, 15);
+                toast.show();
             }
 
             @Override
             public void connectionLost(Throwable throwable) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Connection Lost!",
+                        Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.setGravity(Gravity.BOTTOM, 0, 15);
+                toast.show();
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) {
                 String message = new String(mqttMessage.getPayload());
-
-                if(topic.equals(StaticData.SUBSCRIBE_TOPIC_HUM)) {
-                    StaticData.humValue = Integer.valueOf(message);
-                }else if(topic.equals(StaticData.SUBSCRIBE_TOPIC_TEMP)) {
-                    StaticData.tempValue = Integer.valueOf(message);
+                switch (topic){
+                    case MqttData.SUBSCRIBE_TOPIC_HUM:
+                        MqttData.humValue = Integer.valueOf(message);
+                        break;
+                    case MqttData.SUBSCRIBE_TOPIC_TEMP:
+                        MqttData.tempValue = Integer.valueOf(message);
+                        break;
+                    case MqttData.SUBSCRIBE_TOPIC_WATERING:
+                        if(message.equals("S")){
+                            setMessageNotification("Watering started!");
+                        } else {
+                            setMessageNotification("Watering finished!");
+                        }
+                        break;
                 }
             }
 
@@ -67,10 +95,22 @@ public class MqttMessageService extends Service {
     }
 
 
-    public void initProgressBar(ProgressBar progressBar, int coef, int value) {
-        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, coef * value);
-        animation.setDuration(500);
-        progressBar.startAnimation(animation);
-    }
+    private void setMessageNotification(String msg) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(MqttData.DEVICE_NAME)
+                        .setContentText(msg);
+        Intent resultIntent = new Intent(this, MainActivity.class);
 
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(100, mBuilder.build());
+    }
 }

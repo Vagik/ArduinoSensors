@@ -40,8 +40,8 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
     public void onBindViewHolder(DeviceViewHolder personViewHolder, int position) {
         personViewHolder.deviceName.setText(devices.get(position).getName());
         personViewHolder.deviceName.setOnClickListener(new DeviceClickListener(devices.get(position), activity, SensorsActivity.class));
-        personViewHolder.deviceButton.setOnClickListener(new DeviceClickListener(devices.get(position), activity, EditActivity.class));
-        personViewHolder.deleteButton.setOnClickListener(new DeleteClickListener(devices.get(position), activity));
+        personViewHolder.deviceEditButton.setOnClickListener(new DeviceClickListener(devices.get(position), activity, EditActivity.class));
+        personViewHolder.deviceDeleteButton.setOnClickListener(new DeleteClickListener(devices.get(position), activity));
     }
 
     @Override
@@ -51,14 +51,14 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
 
     class DeviceViewHolder extends RecyclerView.ViewHolder {
         TextView deviceName;
-        Button deviceButton;
-        Button deleteButton;
+        Button deviceEditButton;
+        Button deviceDeleteButton;
 
         DeviceViewHolder(View itemView) {
             super(itemView);
             deviceName = (TextView) itemView.findViewById(R.id.deviceNameView);
-            deviceButton = (Button) itemView.findViewById(R.id.deviceEditButton);
-            deleteButton = (Button) itemView.findViewById(R.id.deviceDeleteButton);
+            deviceEditButton = (Button) itemView.findViewById(R.id.deviceEditButton);
+            deviceDeleteButton = (Button) itemView.findViewById(R.id.deviceDeleteButton);
         }
     }
 }

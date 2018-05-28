@@ -9,7 +9,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.simonyan.arduinosensors.ClickListeners.RefreshClickListener;
-import com.simonyan.arduinosensors.Mqtt.StaticData;
+import com.simonyan.arduinosensors.Mqtt.MqttData;
 import com.simonyan.arduinosensors.ProgressBarAnimation;
 import com.simonyan.arduinosensors.R;
 
@@ -33,8 +33,8 @@ public class HumidityActivity extends BaseActivity {
         TextView humText = (TextView) findViewById(R.id.humTextView);
         ProgressBar progressBarHum = (ProgressBar) findViewById(R.id.humProgressBar);
         humText.setOnClickListener(new RefreshClickListener(humText, progressBarHum, humidityCoef, 0));
-        humText.setText(StaticData.humValue + "%");
-        initProgressBar(progressBarHum, humidityCoef, StaticData.humValue);
+        humText.setText(MqttData.humValue + "%");
+        initProgressBar(progressBarHum, humidityCoef, MqttData.humValue);
 
         Button waterApply = (Button) findViewById(R.id.waterApply);
         waterApply.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +51,8 @@ public class HumidityActivity extends BaseActivity {
             }
         });
 
-        subscribe();
-
+        subscribe(MqttData.SUBSCRIBE_TOPIC_HUM);
+        subscribe(MqttData.SUBSCRIBE_TOPIC_WATERING);
 
         Switch waterPlants = (Switch) findViewById(R.id.waterSwitch);
         setWaterPlantsListener(waterPlants);
@@ -63,7 +63,7 @@ public class HumidityActivity extends BaseActivity {
 
     private void publish(String message) {
         try {
-            StaticData.pahoMqttClient.publishMessage(StaticData.client, message, 1, StaticData.PUBLISH_TOPIC_HUM);
+            MqttData.pahoMqttClient.publishMessage(MqttData.client, message, 1, MqttData.PUBLISH_TOPIC_HUM);
         } catch (MqttException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -71,9 +71,9 @@ public class HumidityActivity extends BaseActivity {
         }
     }
 
-    private void subscribe() {
+    private void subscribe(final String topic) {
         try {
-            StaticData.pahoMqttClient.subscribe(StaticData.client, StaticData.SUBSCRIBE_TOPIC_HUM, 1);
+            MqttData.pahoMqttClient.subscribe(MqttData.client, topic, 1);
         } catch (MqttException e) {
             e.printStackTrace();
         }

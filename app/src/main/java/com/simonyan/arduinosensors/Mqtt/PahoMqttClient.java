@@ -71,8 +71,8 @@ public class PahoMqttClient {
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setCleanSession(true);
         mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setUserName(StaticData.USERNAME);
-        mqttConnectOptions.setPassword(StaticData.PASSWORD.toCharArray());
+        mqttConnectOptions.setUserName(MqttData.USERNAME);
+        mqttConnectOptions.setPassword(MqttData.PASSWORD.toCharArray());
         return mqttConnectOptions;
     }
 

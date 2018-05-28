@@ -20,20 +20,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setButtonIntent((Button) (findViewById(R.id.connectionButton)), MainActivity.this, ConnectionActivity.class);
-        setButtonIntent((Button) (findViewById(R.id.selectionButton)), MainActivity.this, SelectionActivity.class);
+        setButtonIntent((Button) (findViewById(R.id.connectionButton)), ConnectionActivity.class);
+        setButtonIntent((Button) (findViewById(R.id.selectionButton)), SelectionActivity.class);
 
     }
 
-    private void setButtonIntent(Button button, final Context from, final Class to) {
+    private void setButtonIntent(Button button, final Class to) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent conAct = new Intent(from, to);
+                Intent conAct = new Intent(MainActivity.this, to);
                 startActivity(conAct);
             }
         });
     }
-
-
+// Check memory leeks
 }
