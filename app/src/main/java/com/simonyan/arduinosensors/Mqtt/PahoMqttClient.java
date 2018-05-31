@@ -1,7 +1,6 @@
 package com.simonyan.arduinosensors.Mqtt;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
@@ -15,7 +14,6 @@ import java.io.UnsupportedEncodingException;
 
 public class PahoMqttClient {
 
-    private static final String TAG = "PahoMqttClient";
     private MqttAndroidClient mqttAndroidClient;
 
     public MqttAndroidClient getMqttClient(Context context, String brokerUrl, String clientId) {
@@ -27,12 +25,10 @@ public class PahoMqttClient {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     mqttAndroidClient.setBufferOpts(getDisconnectedBufferOptions());
-                    Log.d(TAG, "Success");
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.d(TAG, "Failure " + exception.toString());
                 }
             });
         } catch (MqttException e) {
@@ -40,22 +36,6 @@ public class PahoMqttClient {
         }
 
         return mqttAndroidClient;
-    }
-
-
-    public void disconnect(MqttAndroidClient client) throws MqttException {
-        IMqttToken mqttToken = client.disconnect();
-        mqttToken.setActionCallback(new IMqttActionListener() {
-            @Override
-            public void onSuccess(IMqttToken iMqttToken) {
-                Log.d(TAG, "Successfully disconnected");
-            }
-
-            @Override
-            public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
-                Log.d(TAG, "Failed to disconnected " + throwable.toString());
-            }
-        });
     }
 
     private DisconnectedBufferOptions getDisconnectedBufferOptions() {
@@ -76,7 +56,6 @@ public class PahoMqttClient {
         return mqttConnectOptions;
     }
 
-
     public void publishMessage(MqttAndroidClient client, String msg, int qos, String topic)
             throws MqttException, UnsupportedEncodingException {
         byte[] encodedPayload;
@@ -93,31 +72,13 @@ public class PahoMqttClient {
         token.setActionCallback(new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken iMqttToken) {
-                Log.i("MQTT", "Subscribe Successfully ");
             }
 
             @Override
             public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
-                Log.i("MQTT", "Subscribe Failed " + topic);
 
             }
         });
     }
 
-    public void unSubscribe(MqttAndroidClient client, final String topic) throws MqttException {
-
-        IMqttToken token = client.unsubscribe(topic);
-
-        token.setActionCallback(new IMqttActionListener() {
-            @Override
-            public void onSuccess(IMqttToken iMqttToken) {
-                Log.d(TAG, "UnSubscribe Successfully " + topic);
-            }
-
-            @Override
-            public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
-                Log.e(TAG, "UnSubscribe Failed " + topic);
-            }
-        });
-    }
 }

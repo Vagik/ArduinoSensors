@@ -55,7 +55,7 @@ public class ConnectionActivity extends BaseActivity {
 
     private Device initDevice(){
         String name = ((EditText) findViewById(R.id.connectName)).getText().toString();
-        String IP = ((EditText) findViewById(R.id.connectIP)).getText().toString();
+        String IP = ((EditText) findViewById(R.id.connectClientID)).getText().toString();
         String Port = ((EditText) findViewById(R.id.connectPort)).getText().toString();
         String Username = ((EditText) findViewById(R.id.connectUsername)).getText().toString();
         String Password = ((EditText) findViewById(R.id.connectPassword)).getText().toString();

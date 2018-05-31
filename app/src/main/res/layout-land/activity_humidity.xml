@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/temperatureLayout"
+    android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.simonyan.arduinosensors.Activities.TemperatureActivity">
+    tools:context="com.simonyan.arduinosensors.Activities.HumidityActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/tempApply"
-        android:layout_below="@+id/toolbar"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_above="@id/waterApply"
+        android:layout_below="@id/toolbar"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ProgressBar
-                    android:id="@+id/tempProgressBar"
+                    android:id="@+id/humProgressBar"
                     style="?android:progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -38,29 +39,32 @@
                     android:progressDrawable="@drawable/circular_progress_bar" />
 
                 <TextView
-                    android:id="@+id/tempTextView"
+                    android:id="@+id/humTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
                     android:text="0"
-                    android:textSize="45sp" />
+                    android:textSize="36sp" />
 
             </RelativeLayout>
+
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
             android:orientation="vertical">
 
+
             <LinearLayout
-                android:id="@+id/openDoorLayout"
+                android:id="@+id/waterPlantsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -68,17 +72,17 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/openDoor"
+                        android:id="@+id/waterPlants"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
-                        android:text="@string/openDoor"
-                        android:textSize="28sp" />
+                        android:text="@string/waterPlants"
+                        android:textSize="25sp" />
 
                     <Switch
-                        android:id="@+id/tempSwitch"
+                        android:id="@+id/waterSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -90,7 +94,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/autoOpenDoorLayout"
+                android:id="@+id/autoWaterPlantsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
@@ -101,17 +105,17 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/autoOpenDoor"
+                        android:id="@+id/autoWaterPlants"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
-                        android:text="@string/autoOpenDoor"
-                        android:textSize="28sp" />
+                        android:text="@string/autoWaterPlants"
+                        android:textSize="25sp" />
 
                     <Switch
-                        android:id="@+id/autoTempSwitch"
+                        android:id="@+id/autoWaterSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -126,14 +130,15 @@
 
     </LinearLayout>
 
+
     <Button
-        android:id="@+id/tempApply"
+        android:id="@+id/waterApply"
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
-        android:layout_margin="20dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
         android:layout_marginBottom="30dp"
         android:text="Apply" />
 

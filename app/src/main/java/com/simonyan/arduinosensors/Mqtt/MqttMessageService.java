@@ -1,6 +1,5 @@
 package com.simonyan.arduinosensors.Mqtt;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -21,9 +20,6 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MqttMessageService extends Service {
 
-    public MqttMessageService() {
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,6 +36,7 @@ public class MqttMessageService extends Service {
                 toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.setGravity(Gravity.BOTTOM, 0, 15);
                 toast.show();
+
             }
 
             @Override
@@ -55,7 +52,7 @@ public class MqttMessageService extends Service {
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) {
                 String message = new String(mqttMessage.getPayload());
-                switch (topic){
+                switch (topic) {
                     case MqttData.SUBSCRIBE_TOPIC_HUM:
                         MqttData.humValue = Integer.valueOf(message);
                         break;
@@ -63,7 +60,7 @@ public class MqttMessageService extends Service {
                         MqttData.tempValue = Integer.valueOf(message);
                         break;
                     case MqttData.SUBSCRIBE_TOPIC_WATERING:
-                        if(message.equals("S")){
+                        if (message.equals("S")) {
                             setMessageNotification("Watering started!");
                         } else {
                             setMessageNotification("Watering finished!");

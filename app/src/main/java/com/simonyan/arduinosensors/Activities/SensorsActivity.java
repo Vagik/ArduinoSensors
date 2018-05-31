@@ -25,16 +25,9 @@ public class SensorsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensors);
 
-        Device device = (Device) getIntent().getSerializableExtra("Device");
-        MqttData.DEVICE_NAME = device.getName();
-        MqttData.MQTT_BROKER_URL += device.getPort();
-        MqttData.USERNAME = device.getUserName();
-        MqttData.PASSWORD = device.getPassword();
-        MqttData.CLIENT_ID = device.getPassword();
-        MqttData.pahoMqttClient = new PahoMqttClient();
-        MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(), MqttData.MQTT_BROKER_URL, MqttData.CLIENT_ID);
+        fillMqttData();
 
-        (findViewById(R.id.motionTextView)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.humidityTextView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SensorsActivity.this, HumidityActivity.class);
@@ -52,6 +45,18 @@ public class SensorsActivity extends BaseActivity {
 
         Intent intent = new Intent(this, MqttMessageService.class);
         startService(intent);
+    }
+
+    private void fillMqttData(){
+        Device device = (Device) getIntent().getSerializableExtra("Device");
+        MqttData.DEVICE_NAME = device.getName();
+        MqttData.MQTT_BROKER_URL += device.getPort();
+        MqttData.USERNAME = device.getUserName();
+        MqttData.PASSWORD = device.getPassword();
+        MqttData.CLIENT_ID = device.getPassword();
+        MqttData.pahoMqttClient = new PahoMqttClient();
+        MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(), MqttData.MQTT_BROKER_URL, MqttData.CLIENT_ID);
+
     }
 }
 
