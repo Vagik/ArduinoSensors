@@ -1,6 +1,7 @@
 package com.simonyan.arduinosensors.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.simonyan.arduinosensors.ClickListeners.RefreshClickListener;
 import com.simonyan.arduinosensors.Mqtt.MqttData;
+import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
 import com.simonyan.arduinosensors.ProgressBarAnimation;
 import com.simonyan.arduinosensors.R;
 
@@ -19,6 +21,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class TemperatureActivity extends BaseActivity {
     final int temperatureCoef = 2;
+    Intent intent;
 
     @Override
     protected String getActivityTitle() {
@@ -30,11 +33,12 @@ public class TemperatureActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temperature);
 
+        intent = new Intent(this, MqttMessageService.class);
+        startService(intent);
+
         TextView tempText = (TextView) findViewById(R.id.tempTextView);
         ProgressBar progressBarTemp = (ProgressBar) findViewById(R.id.tempProgressBar);
-
         tempText.setOnClickListener(new RefreshClickListener(tempText, progressBarTemp, temperatureCoef, 1));
-
         tempText.setText(MqttData.tempValue + "°C");
         initProgressBar(progressBarTemp, temperatureCoef, MqttData.tempValue);
 
@@ -63,8 +67,6 @@ public class TemperatureActivity extends BaseActivity {
             }
         });
 
-        subscribe();
-
 
         Switch openDoor = (Switch) findViewById(R.id.tempSwitch);
         setOpenDoorListener(openDoor);
@@ -74,15 +76,25 @@ public class TemperatureActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        subscribe(MqttData.SUBSCRIBE_TOPIC_TEMP);
+    }
 
-    private void subscribe() {
+    @Override
+    protected void onDestroy() {
+        stopService(intent);
+        super.onDestroy();
+    }
+
+    private void subscribe(final String topic) {
         try {
-            MqttData.pahoMqttClient.subscribe(MqttData.client, MqttData.SUBSCRIBE_TOPIC_TEMP, 1);
+            MqttData.pahoMqttClient.subscribe(MqttData.client, topic, 1);
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
-
 
     private void setOpenDoorListener(Switch openDoor) {
         openDoor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -107,7 +119,7 @@ public class TemperatureActivity extends BaseActivity {
     }
 
     public void initProgressBar(ProgressBar progressBar, int coef, int value) {
-        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, coef * value);
+        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, coef * value);
         animation.setDuration(500);
         progressBar.startAnimation(animation);
     }

@@ -1,7 +1,6 @@
 package com.simonyan.arduinosensors.Activities;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.simonyan.arduinosensors.ClickListeners.EditClickListener;
@@ -23,8 +22,7 @@ public class EditActivity extends BaseActivity {
 
         Device device = (Device) getIntent().getSerializableExtra("Device");
         fillDeviceFields(device);
-        Button button = (Button) findViewById(R.id.saveDeviceButton);
-        button.setOnClickListener(new EditClickListener(device, EditActivity.this, this));
+        (findViewById(R.id.saveDeviceButton)).setOnClickListener(new EditClickListener(device, EditActivity.this, this));
     }
 
     private void fillDeviceFields(Device device) {

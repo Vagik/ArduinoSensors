@@ -29,6 +29,10 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
         return devices.size();
     }
 
+
+
+
+
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.devices_list, viewGroup, false);
@@ -36,11 +40,11 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
     }
 
     @Override
-    public void onBindViewHolder(DeviceViewHolder personViewHolder, int position) {
-        personViewHolder.deviceName.setText(devices.get(position).getName());
-        personViewHolder.deviceName.setOnClickListener(new DeviceClickListener(devices.get(position), activity, SensorsActivity.class));
-        personViewHolder.deviceEditButton.setOnClickListener(new DeviceClickListener(devices.get(position), activity, EditActivity.class));
-        personViewHolder.deviceDeleteButton.setOnClickListener(new DeleteClickListener(devices.get(position), activity));
+    public void onBindViewHolder(DeviceViewHolder deviceViewHolder, int position) {
+        deviceViewHolder.deviceName.setText(devices.get(position).getName());
+        deviceViewHolder.deviceName.setOnClickListener(new DeviceClickListener(devices.get(position), activity, SensorsActivity.class));
+        deviceViewHolder.deviceEditButton.setOnClickListener(new DeviceClickListener(devices.get(position), activity, EditActivity.class));
+        deviceViewHolder.deviceDeleteButton.setOnClickListener(new DeleteClickListener(devices.get(position), activity));
     }
 
     @Override

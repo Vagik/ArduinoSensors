@@ -110,4 +110,5 @@ public class MqttMessageService extends Service {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(100, mBuilder.build());
     }
+
 }

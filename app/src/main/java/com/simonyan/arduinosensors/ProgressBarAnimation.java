@@ -8,20 +8,18 @@ import android.widget.ProgressBar;
 
 public class ProgressBarAnimation extends Animation {
     private ProgressBar progressBar;
-    private float from;
-    private float to;
+    private float value;
 
-    public ProgressBarAnimation(ProgressBar progressBar, float from, float to) {
+    public ProgressBarAnimation(ProgressBar progressBar,  float value) {
         super();
         this.progressBar = progressBar;
-        this.from = from;
-        this.to = to;
+        this.value = value;
     }
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         super.applyTransformation(interpolatedTime, t);
-        float value = from + (to - from) * interpolatedTime;
+        float value = this.value * interpolatedTime;
         progressBar.setProgress((int) value);
         progressBar.getProgressDrawable().setColorFilter(Color.rgb(2 * (int) value, 100 - (int) value, 255 - 2 * (int) value), PorterDuff.Mode.SRC_IN);
     }

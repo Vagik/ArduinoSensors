@@ -56,7 +56,7 @@ public class EditClickListener implements View.OnClickListener {
 
     }
 
-    public Device readChanges() {
+    private Device readChanges() {
         String Name = ((EditText) activity.findViewById(R.id.editName)).getText().toString();
         String ClientID = ((EditText) activity.findViewById(R.id.editClientID)).getText().toString();
         String Port = ((EditText) activity.findViewById(R.id.editPort)).getText().toString();

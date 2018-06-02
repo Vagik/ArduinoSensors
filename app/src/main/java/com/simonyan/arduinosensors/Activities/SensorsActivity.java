@@ -6,11 +6,8 @@ import android.view.View;
 
 import com.simonyan.arduinosensors.Device;
 import com.simonyan.arduinosensors.Mqtt.MqttData;
-import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
 import com.simonyan.arduinosensors.Mqtt.PahoMqttClient;
 import com.simonyan.arduinosensors.R;
-
-import org.eclipse.paho.client.mqttv3.MqttException;
 
 
 public class SensorsActivity extends BaseActivity {
@@ -42,12 +39,9 @@ public class SensorsActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-
-        Intent intent = new Intent(this, MqttMessageService.class);
-        startService(intent);
     }
 
-    private void fillMqttData(){
+    private void fillMqttData() {
         Device device = (Device) getIntent().getSerializableExtra("Device");
         MqttData.DEVICE_NAME = device.getName();
         MqttData.MQTT_BROKER_URL += device.getPort();
@@ -56,7 +50,6 @@ public class SensorsActivity extends BaseActivity {
         MqttData.CLIENT_ID = device.getPassword();
         MqttData.pahoMqttClient = new PahoMqttClient();
         MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(), MqttData.MQTT_BROKER_URL, MqttData.CLIENT_ID);
-
     }
 }
 
