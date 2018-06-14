@@ -2,6 +2,8 @@ package com.simonyan.arduinosensors.Mqtt;
 
 import android.content.Context;
 
+import com.simonyan.arduinosensors.Device;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -10,9 +12,15 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 public class PahoMqttClient {
+    private Device device;
+
+    public PahoMqttClient(Device device){
+        this.device = device;
+    }
 
     private MqttAndroidClient mqttAndroidClient;
 
@@ -51,8 +59,8 @@ public class PahoMqttClient {
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setCleanSession(true);
         mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setUserName(MqttData.USERNAME);
-        mqttConnectOptions.setPassword(MqttData.PASSWORD.toCharArray());
+        mqttConnectOptions.setUserName(device.getUserName());
+        mqttConnectOptions.setPassword(device.getPassword().toCharArray());
         return mqttConnectOptions;
     }
 

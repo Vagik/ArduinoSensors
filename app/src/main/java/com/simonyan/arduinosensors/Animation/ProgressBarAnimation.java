@@ -1,4 +1,4 @@
-package com.simonyan.arduinosensors;
+package com.simonyan.arduinosensors.Animation;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;

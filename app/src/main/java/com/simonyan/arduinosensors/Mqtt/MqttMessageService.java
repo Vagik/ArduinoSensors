@@ -6,26 +6,32 @@ import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.simonyan.arduinosensors.Activities.MainActivity;
+import com.simonyan.arduinosensors.Device;
 import com.simonyan.arduinosensors.R;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MqttMessageService extends Service {
 
+    Device device;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        MqttData.pahoMqttClient = new PahoMqttClient();
-        MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(), MqttData.MQTT_BROKER_URL, MqttData.CLIENT_ID);
 
+        initializeMQTT();
 
         MqttData.client.setCallback(new MqttCallbackExtended() {
             @Override
@@ -36,7 +42,6 @@ public class MqttMessageService extends Service {
                 toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.setGravity(Gravity.BOTTOM, 0, 15);
                 toast.show();
-
             }
 
             @Override
@@ -62,7 +67,7 @@ public class MqttMessageService extends Service {
                     case MqttData.SUBSCRIBE_TOPIC_WATERING:
                         if (message.equals("S")) {
                             setMessageNotification("Watering started!");
-                        } else {
+                        } else if (message.equals("F")) {
                             setMessageNotification("Watering finished!");
                         }
                         break;
@@ -82,7 +87,6 @@ public class MqttMessageService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -96,19 +100,29 @@ public class MqttMessageService extends Service {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(MqttData.DEVICE_NAME)
+                        .setContentTitle(device.getName())
                         .setContentText(msg);
         Intent resultIntent = new Intent(this, MainActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(100, mBuilder.build());
     }
 
+    private void initializeMQTT() {
+        SharedPreferences preferences = getSharedPreferences("SelectedDevice", Context.MODE_PRIVATE);
+        String dev = preferences.getString("Device", null);
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        device = gson.fromJson(dev, Device.class);
+
+        MqttData.pahoMqttClient = new PahoMqttClient(device);
+        MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(),
+                MqttData.MQTT_BROKER_URL + device.getPort(), device.getClientID());
+    }
 }

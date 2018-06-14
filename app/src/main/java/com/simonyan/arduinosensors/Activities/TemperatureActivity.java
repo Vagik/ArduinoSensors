@@ -1,7 +1,9 @@
 package com.simonyan.arduinosensors.Activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -11,16 +13,24 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.simonyan.arduinosensors.Animation.TextViewAnimation;
 import com.simonyan.arduinosensors.ClickListeners.RefreshClickListener;
+import com.simonyan.arduinosensors.Device;
 import com.simonyan.arduinosensors.Mqtt.MqttData;
 import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
-import com.simonyan.arduinosensors.ProgressBarAnimation;
+import com.simonyan.arduinosensors.Animation.ProgressBarAnimation;
+import com.simonyan.arduinosensors.Mqtt.PahoMqttClient;
 import com.simonyan.arduinosensors.R;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class TemperatureActivity extends BaseActivity {
     final int temperatureCoef = 2;
+    final int qos = 1;
+
     Intent intent;
 
     @Override
@@ -39,7 +49,7 @@ public class TemperatureActivity extends BaseActivity {
         TextView tempText = (TextView) findViewById(R.id.tempTextView);
         ProgressBar progressBarTemp = (ProgressBar) findViewById(R.id.tempProgressBar);
         tempText.setOnClickListener(new RefreshClickListener(tempText, progressBarTemp, temperatureCoef, 1));
-        tempText.setText(MqttData.tempValue + "°C");
+        initTextView(tempText, MqttData.tempValue);
         initProgressBar(progressBarTemp, temperatureCoef, MqttData.tempValue);
 
 
@@ -54,16 +64,14 @@ public class TemperatureActivity extends BaseActivity {
                 Switch autoTempSwitch = (Switch) findViewById(R.id.autoTempSwitch);
                 msg = checkSwitch(autoTempSwitch, msg);
 
-                final AlertDialog aboutDialog = new AlertDialog.Builder(
+                AlertDialog alertDialog = new AlertDialog.Builder(
                         TemperatureActivity.this).setMessage("COMING SOON!")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         }).create();
-
-                aboutDialog.show();
-
+                alertDialog.show();
             }
         });
 
@@ -90,7 +98,7 @@ public class TemperatureActivity extends BaseActivity {
 
     private void subscribe(final String topic) {
         try {
-            MqttData.pahoMqttClient.subscribe(MqttData.client, topic, 1);
+            MqttData.pahoMqttClient.subscribe(MqttData.client, topic, qos);
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -116,6 +124,12 @@ public class TemperatureActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void initTextView(TextView textView, int value) {
+        TextViewAnimation animation = new TextViewAnimation(textView, value, "°C");
+        animation.setDuration(500);
+        textView.startAnimation(animation);
     }
 
     public void initProgressBar(ProgressBar progressBar, int coef, int value) {

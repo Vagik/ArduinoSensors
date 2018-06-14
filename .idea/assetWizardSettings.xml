@@ -19,7 +19,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\DDD\Desktop\delete.png" />
+                                      <entry key="imageAsset" value="C:\Users\DDD\Desktop\SplashScreen\1.png" />
                                       <entry key="outputName" value="ic_delete_button" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="9c1c0e" />
@@ -51,7 +51,8 @@
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="backgroundColor" value="9c1c0e" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\DDD\Desktop\AU-NEW-1.png" />
+                                      <entry key="imageAsset" value="C:\Users\DDD\Desktop\SplashScreen\9.png" />
+                                      <entry key="outputName" value="ic_splash_9" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -29,10 +29,6 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
         return devices.size();
     }
 
-
-
-
-
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.devices_list, viewGroup, false);

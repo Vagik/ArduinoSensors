@@ -1,7 +1,12 @@
 package com.simonyan.arduinosensors.Activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -9,18 +14,27 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.simonyan.arduinosensors.Animation.ProgressBarAnimation;
+import com.simonyan.arduinosensors.Animation.TextViewAnimation;
 import com.simonyan.arduinosensors.ClickListeners.RefreshClickListener;
+import com.simonyan.arduinosensors.Device;
 import com.simonyan.arduinosensors.Mqtt.MqttData;
 import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
-import com.simonyan.arduinosensors.ProgressBarAnimation;
+import com.simonyan.arduinosensors.Mqtt.PahoMqttClient;
 import com.simonyan.arduinosensors.R;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.TimeUnit;
 
 public class HumidityActivity extends BaseActivity {
     final int humidityCoef = 1;
+    final int qos = 1;
+
     Intent intent;
 
     @Override
@@ -39,21 +53,23 @@ public class HumidityActivity extends BaseActivity {
         TextView humText = (TextView) findViewById(R.id.humTextView);
         ProgressBar progressBarHum = (ProgressBar) findViewById(R.id.humProgressBar);
         humText.setOnClickListener(new RefreshClickListener(humText, progressBarHum, humidityCoef, 0));
-        humText.setText(MqttData.humValue + "%");
+        initTextView(humText, MqttData.humValue);
         initProgressBar(progressBarHum, humidityCoef, MqttData.humValue);
 
         Button waterApply = (Button) findViewById(R.id.waterApply);
         waterApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String msg = "";
-                Switch waterSwitch = (Switch) findViewById(R.id.waterSwitch);
-                msg = checkSwitch(waterSwitch, msg);
+                    String msg = "";
+                    Switch waterSwitch = (Switch) findViewById(R.id.waterSwitch);
+                    msg = checkSwitch(waterSwitch, msg);
 
-                Switch autoWaterSwitch = (Switch) findViewById(R.id.autoWaterSwitch);
-                msg = checkSwitch(autoWaterSwitch, msg);
+                    Switch autoWaterSwitch = (Switch) findViewById(R.id.autoWaterSwitch);
+                    msg = checkSwitch(autoWaterSwitch, msg);
 
-                publish(msg);
+                    publish(msg);
+                    // TODO: 14.06.2018 Save switchs
+
             }
         });
 
@@ -63,6 +79,7 @@ public class HumidityActivity extends BaseActivity {
         Switch autoWaterPlants = (Switch) findViewById(R.id.autoWaterSwitch);
         setAutoWaterListener(autoWaterPlants);
     }
+
 
     @Override
     protected void onStart() {
@@ -79,8 +96,7 @@ public class HumidityActivity extends BaseActivity {
 
     private void publish(String message) {
         try {
-            // TODO: 02.06.2018 qos? 0 / 1
-            MqttData.pahoMqttClient.publishMessage(MqttData.client, message, 1, MqttData.PUBLISH_TOPIC_HUM);
+            MqttData.pahoMqttClient.publishMessage(MqttData.client, message, qos, MqttData.PUBLISH_TOPIC_HUM);
         } catch (MqttException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -90,7 +106,7 @@ public class HumidityActivity extends BaseActivity {
 
     private void subscribe(final String topic) {
         try {
-            MqttData.pahoMqttClient.subscribe(MqttData.client, topic, 1);
+            MqttData.pahoMqttClient.subscribe(MqttData.client, topic, qos);
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -118,7 +134,13 @@ public class HumidityActivity extends BaseActivity {
         });
     }
 
-    public void initProgressBar(ProgressBar progressBar, int coef, int value) {
+    private void initTextView(TextView textView, int value) {
+        TextViewAnimation animation = new TextViewAnimation(textView, value, "%");
+        animation.setDuration(500);
+        textView.startAnimation(animation);
+    }
+
+    private void initProgressBar(ProgressBar progressBar, int coef, int value) {
         ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, coef * value);
         animation.setDuration(500);
         progressBar.startAnimation(animation);

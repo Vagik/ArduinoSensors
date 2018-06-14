@@ -4,8 +4,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.simonyan.arduinosensors.Animation.TextViewAnimation;
 import com.simonyan.arduinosensors.Mqtt.MqttData;
-import com.simonyan.arduinosensors.ProgressBarAnimation;
+import com.simonyan.arduinosensors.Animation.ProgressBarAnimation;
 
 
 public class RefreshClickListener implements View.OnClickListener {
@@ -34,7 +35,7 @@ public class RefreshClickListener implements View.OnClickListener {
             value = MqttData.tempValue;
             unit = "°C";
         }
-        textView.setText(value + unit);
+        initTextView(textView, value, unit);
         initProgressBar(progressBar, coef, value);
     }
 
@@ -43,5 +44,11 @@ public class RefreshClickListener implements View.OnClickListener {
         ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, coef * value);
         animation.setDuration(500);
         progressBar.startAnimation(animation);
+    }
+
+    private void initTextView(TextView textView, int value, String unit) {
+        TextViewAnimation animation = new TextViewAnimation(textView, value, unit);
+        animation.setDuration(500);
+        textView.startAnimation(animation);
     }
 }
