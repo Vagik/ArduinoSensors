@@ -68,8 +68,7 @@ public class HumidityActivity extends BaseActivity {
                     msg = checkSwitch(autoWaterSwitch, msg);
 
                     publish(msg);
-                    // TODO: 14.06.2018 Save switchs
-
+                    saveSwitchSettings(msg);
             }
         });
 
@@ -78,7 +77,11 @@ public class HumidityActivity extends BaseActivity {
 
         Switch autoWaterPlants = (Switch) findViewById(R.id.autoWaterSwitch);
         setAutoWaterListener(autoWaterPlants);
+
+        loadSwitchSettings(waterPlants, autoWaterPlants);
     }
+
+
 
 
     @Override
@@ -153,5 +156,30 @@ public class HumidityActivity extends BaseActivity {
             message += "0";
         }
         return message;
+    }
+
+    private void saveSwitchSettings(String message){
+        SharedPreferences preferences = getSharedPreferences("HumiditySettings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.putString("Settings", message);
+        editor.apply();
+    }
+
+    private void loadSwitchSettings(Switch waterPlants, Switch autoWaterPlants){
+        SharedPreferences preferences = getSharedPreferences("HumiditySettings", Context.MODE_PRIVATE);
+        String message = preferences.getString("Settings", "00");
+        switch (message){
+            case "00":
+                waterPlants.setChecked(false);
+                autoWaterPlants.setChecked(false);
+                break;
+            case "10":
+                waterPlants.setChecked(true);
+                break;
+            case "01":
+                autoWaterPlants.setChecked(true);
+                break;
+        }
     }
 }
