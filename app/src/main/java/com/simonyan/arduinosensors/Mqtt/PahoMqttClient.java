@@ -12,17 +12,15 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 public class PahoMqttClient {
     private Device device;
+    private MqttAndroidClient mqttAndroidClient;
 
-    public PahoMqttClient(Device device){
+    public PahoMqttClient(Device device) {
         this.device = device;
     }
-
-    private MqttAndroidClient mqttAndroidClient;
 
     public MqttAndroidClient getMqttClient(Context context, String brokerUrl, String clientId) {
 
@@ -88,5 +86,6 @@ public class PahoMqttClient {
             }
         });
     }
+
 
 }

@@ -4,9 +4,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.simonyan.arduinosensors.Animation.ProgressBarAnimation;
 import com.simonyan.arduinosensors.Animation.TextViewAnimation;
 import com.simonyan.arduinosensors.Mqtt.MqttData;
-import com.simonyan.arduinosensors.Animation.ProgressBarAnimation;
 
 
 public class RefreshClickListener implements View.OnClickListener {

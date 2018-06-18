@@ -9,7 +9,7 @@
     <string name="humiditySensor">Humidity </string>
     <string name="openDoor">Open the door</string>
     <string name="autoOpenDoor">Automatic door</string>
-    <string name="waterPlants">Water the plants</string>
+    <string name="waterPlants">Water plants</string>
     <string name="autoWaterPlants">Automatic watering</string>
 
     <string name="deviceName">Device Name:</string>

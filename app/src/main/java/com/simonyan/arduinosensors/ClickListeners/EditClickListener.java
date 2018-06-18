@@ -18,12 +18,10 @@ import java.util.Set;
 
 public class EditClickListener implements View.OnClickListener {
     private Device device;
-    private Context context;
     private Activity activity;
 
-    public EditClickListener(Device device, Context context, Activity activity) {
+    public EditClickListener(Device device, Activity activity) {
         this.device = device;
-        this.context = context;
         this.activity = activity;
     }
 
@@ -31,7 +29,7 @@ public class EditClickListener implements View.OnClickListener {
     public void onClick(View v) {
         Device newDevice = readChanges();
 
-        SharedPreferences preferences = context.getSharedPreferences("ArduinoSensors", Context.MODE_PRIVATE);
+        SharedPreferences preferences = activity.getSharedPreferences("ArduinoSensors", Context.MODE_PRIVATE);
         Set<String> setDevices = preferences.getStringSet("Devices", new HashSet<String>());
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -51,8 +49,8 @@ public class EditClickListener implements View.OnClickListener {
         editor.putStringSet("Devices", setDevices);
         editor.apply();
 
-        Intent intent = new Intent(context, SelectionActivity.class);
-        context.startActivity(intent);
+        Intent intent = new Intent(activity, SelectionActivity.class);
+        activity.startActivity(intent);
 
     }
 

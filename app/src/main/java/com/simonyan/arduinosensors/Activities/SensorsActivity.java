@@ -15,9 +15,6 @@ import com.simonyan.arduinosensors.R;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 
-import java.util.HashSet;
-import java.util.Set;
-
 
 public class SensorsActivity extends BaseActivity {
 

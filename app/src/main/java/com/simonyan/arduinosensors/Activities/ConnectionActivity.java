@@ -50,7 +50,6 @@ public class ConnectionActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private Device initDevice() {

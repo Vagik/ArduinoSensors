@@ -1,9 +1,7 @@
 package com.simonyan.arduinosensors.Activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -13,18 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.simonyan.arduinosensors.Animation.ProgressBarAnimation;
 import com.simonyan.arduinosensors.Animation.TextViewAnimation;
 import com.simonyan.arduinosensors.ClickListeners.RefreshClickListener;
-import com.simonyan.arduinosensors.Device;
 import com.simonyan.arduinosensors.Mqtt.MqttData;
 import com.simonyan.arduinosensors.Mqtt.MqttMessageService;
-import com.simonyan.arduinosensors.Animation.ProgressBarAnimation;
-import com.simonyan.arduinosensors.Mqtt.PahoMqttClient;
 import com.simonyan.arduinosensors.R;
 
-import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class TemperatureActivity extends BaseActivity {

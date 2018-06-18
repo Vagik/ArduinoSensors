@@ -24,7 +24,8 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MqttMessageService extends Service {
-
+    final int humidityCoef = 1;
+    final int tempCoef = 2;
     Device device;
 
     @Override
@@ -59,10 +60,10 @@ public class MqttMessageService extends Service {
                 String message = new String(mqttMessage.getPayload());
                 switch (topic) {
                     case MqttData.SUBSCRIBE_TOPIC_HUM:
-                        MqttData.humValue = Integer.valueOf(message);
+                        MqttData.humValue = getValue(message, humidityCoef);
                         break;
                     case MqttData.SUBSCRIBE_TOPIC_TEMP:
-                        MqttData.tempValue = Integer.valueOf(message);
+                        MqttData.tempValue = getValue(message, tempCoef);
                         break;
                     case MqttData.SUBSCRIBE_TOPIC_WATERING:
                         if (message.equals("S")) {
@@ -124,5 +125,16 @@ public class MqttMessageService extends Service {
         MqttData.pahoMqttClient = new PahoMqttClient(device);
         MqttData.client = MqttData.pahoMqttClient.getMqttClient(getApplicationContext(),
                 MqttData.MQTT_BROKER_URL + device.getPort(), device.getClientID());
+    }
+
+    int getValue(String message, int coef){
+        int value = Integer.valueOf(message);
+        if(value < 0) {
+            return 0;
+        } else if (value > 100 / coef){
+            return 100 / coef;
+        } else{
+            return value;
+        }
     }
 }

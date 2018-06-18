@@ -1,12 +1,9 @@
 package com.simonyan.arduinosensors.Activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -29,12 +26,10 @@ import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeUnit;
 
 public class HumidityActivity extends BaseActivity {
     final int humidityCoef = 1;
     final int qos = 1;
-
     Intent intent;
 
     @Override
@@ -60,15 +55,15 @@ public class HumidityActivity extends BaseActivity {
         waterApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    String msg = "";
-                    Switch waterSwitch = (Switch) findViewById(R.id.waterSwitch);
-                    msg = checkSwitch(waterSwitch, msg);
+                String msg = "";
+                Switch waterSwitch = (Switch) findViewById(R.id.waterSwitch);
+                msg = checkSwitch(waterSwitch, msg);
 
-                    Switch autoWaterSwitch = (Switch) findViewById(R.id.autoWaterSwitch);
-                    msg = checkSwitch(autoWaterSwitch, msg);
+                Switch autoWaterSwitch = (Switch) findViewById(R.id.autoWaterSwitch);
+                msg = checkSwitch(autoWaterSwitch, msg);
 
-                    publish(msg);
-                    saveSwitchSettings(msg);
+                publish(msg);
+                saveSwitchSettings(msg);
             }
         });
 
@@ -80,8 +75,6 @@ public class HumidityActivity extends BaseActivity {
 
         loadSwitchSettings(waterPlants, autoWaterPlants);
     }
-
-
 
 
     @Override
@@ -158,7 +151,7 @@ public class HumidityActivity extends BaseActivity {
         return message;
     }
 
-    private void saveSwitchSettings(String message){
+    private void saveSwitchSettings(String message) {
         SharedPreferences preferences = getSharedPreferences("HumiditySettings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
@@ -166,10 +159,10 @@ public class HumidityActivity extends BaseActivity {
         editor.apply();
     }
 
-    private void loadSwitchSettings(Switch waterPlants, Switch autoWaterPlants){
+    private void loadSwitchSettings(Switch waterPlants, Switch autoWaterPlants) {
         SharedPreferences preferences = getSharedPreferences("HumiditySettings", Context.MODE_PRIVATE);
         String message = preferences.getString("Settings", "00");
-        switch (message){
+        switch (message) {
             case "00":
                 waterPlants.setChecked(false);
                 autoWaterPlants.setChecked(false);
@@ -182,4 +175,5 @@ public class HumidityActivity extends BaseActivity {
                 break;
         }
     }
+
 }

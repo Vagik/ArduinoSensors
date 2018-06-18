@@ -9,7 +9,7 @@ public class TextViewAnimation extends Animation {
     private float value;
     private String unit;
 
-    public TextViewAnimation(TextView textView,  float value, String unit) {
+    public TextViewAnimation(TextView textView, float value, String unit) {
         super();
         this.textView = textView;
         this.value = value;

@@ -22,7 +22,7 @@ public class EditActivity extends BaseActivity {
 
         Device device = (Device) getIntent().getSerializableExtra("Device");
         fillDeviceFields(device);
-        (findViewById(R.id.saveDeviceButton)).setOnClickListener(new EditClickListener(device, EditActivity.this, this));
+        (findViewById(R.id.saveDeviceButton)).setOnClickListener(new EditClickListener(device,  this));
     }
 
     private void fillDeviceFields(Device device) {
